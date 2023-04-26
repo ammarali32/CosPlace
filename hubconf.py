@@ -15,7 +15,7 @@ AVAILABLE_TRAINED_MODELS = {
 }
 
 
-def get_trained_model(backbone : str = "ResNet50", fc_output_dim : int = 2048, weights) -> torch.nn.Module:
+def get_trained_model(backbone : str = "ResNet50", fc_output_dim : int = 2048) -> torch.nn.Module:
     """Return a model trained with CosPlace on San Francisco eXtra Large.
     
     Args:
@@ -37,9 +37,4 @@ def get_trained_model(backbone : str = "ResNet50", fc_output_dim : int = 2048, w
         raise ValueError(f"Parameter `fc_output_dim` is set to {fc_output_dim}, but for backbone {backbone} "
                          f"it must be one of {list(AVAILABLE_TRAINED_MODELS[backbone])}")
     model = cosplace_network.GeoLocalizationNet(backbone, fc_output_dim)
-    checkpoint = torch.load(weights)
-    model.load_state_dict(
-        checkpoint,
-        map_location=torch.device('cpu'))
-    )
     return model
